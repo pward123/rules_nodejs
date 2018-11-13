@@ -29,6 +29,7 @@ load("//internal/npm_package:npm_package.bzl", _npm_package = "npm_package")
 load("//internal/history-server:history_server.bzl", _history_server = "history_server")
 load("//internal/http-server:http_server.bzl", _http_server = "http_server")
 load("//internal/babel_library:babel_library.bzl", _babel_library = "babel_library")
+load("//internal/babel_library:babel_workspace.bzl", _babel_setup_workspace = "babel_setup_workspace")
 load("//:package.bzl", _check_rules_nodejs_version = "check_rules_nodejs_version")
 
 check_bazel_version = _check_bazel_version
@@ -43,6 +44,7 @@ npm_package = _npm_package
 history_server = _history_server
 http_server = _http_server
 babel_library = _babel_library
+babel_setup_workspace = _babel_setup_workspace
 # ANY RULES ADDED HERE SHOULD BE DOCUMENTED, run yarn skydoc to verify
 
 check_rules_nodejs_version = _check_rules_nodejs_version

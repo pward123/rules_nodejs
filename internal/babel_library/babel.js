@@ -1,10 +1,17 @@
 // A simple wrapper around babel-core due to https://github.com/babel/babel/issues/8193
 
-const {writeFile, mkdir} = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 const babel = require('@babel/core');
 const program = require('commander');
+
+function mkdirp(p) {
+  if (!fs.existsSync(p)) {
+    mkdirp(path.dirname(p));
+    fs.mkdirSync(p);
+  }
+}
 
 program.version('1.0.0')
     .usage('[options] <files...>')
@@ -29,16 +36,19 @@ for (let i = 0; i < program.args.length; i += 2) {
     if (err) {
       return console.error(err);
     }
-    // Ensure directory exists
-    mkdir(path.dirname(output), { recursive: true }, (err) => {
-      if (err) {
-        return console.error(err);
-      }
-      return writeFile(output, result.code, (err) => {
-        if (err) {
-          return console.error(err);
-        }
-      });
-    });
+
+    mkdirp(path.dirname(output));
+    fs.writeFileSync(output, result.code);
+    // // Ensure directory exists
+    // mkdirp(path.dirname(output), { recursive: true }, (err) => {
+    //   if (err) {
+    //     return console.error(err);
+    //   }
+    //   return writeFile(output, result.code, (err) => {
+    //     if (err) {
+    //       return console.error(err);
+    //     }
+    //   });
+    // });
   });
 }
